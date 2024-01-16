@@ -6,14 +6,17 @@
 #include "hittable_list.h"
 #include "material.h"
 #include "sphere.h"
+#include "texture.h"
 #include "triangle.h"
 
 #include <chrono>
 
-int main() {
-
+void random_spheres() {
   // World
   hittable_list world;
+
+  auto checker = make_shared<checker_texture>(0.32, color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
+  world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian>(checker)));
 
   // Random Spheres with materials
   auto ground_material = make_shared<lambertian>(color(0.5, 0.5, 0.5));
@@ -76,11 +79,72 @@ int main() {
   camera.defocus_angle = 0.8;
   camera.focus_dist = 11;
 
+  camera.render(world);
+}
+
+void two_spheres() {
+  hittable_list world;
+
+  auto checker = make_shared<checker_texture>(0.8, color(0.2, 0.3, 0.1), color(0.9, 0.9, 0.9));
+
+  world.add(make_shared<sphere>(point3(0, -10, 0), 10, make_shared<lambertian>(checker)));
+  world.add(make_shared<sphere>(point3(0, 10, 0), 10, make_shared<lambertian>(checker)));
+
+  camera cam;
+
+  cam.aspect_ratio = 16.0 / 9.0;
+  cam.image_width = 400;
+  cam.samples_per_pixel = 100;
+  cam.max_depth = 50;
+
+  cam.vfov = 20;
+  cam.lookfrom = point3(13, 2, 3);
+  cam.lookat = point3(0, 0, 0);
+  cam.vup = vec3(0, 1, 0);
+
+  cam.defocus_angle = 0;
+
+  cam.render(world);
+}
+
+void uv_sphere() {
+  auto uv_texture = make_shared<image_texture>("../textures/uv_grid.png");
+  auto uv_surface = make_shared<lambertian>(uv_texture);
+  auto uv_sphere = make_shared<sphere>(point3(0, 0, 0), 2, uv_surface);
+
+  camera cam;
+
+  cam.aspect_ratio = 16.0 / 9.0;
+  cam.image_width = 400;
+  cam.samples_per_pixel = 100;
+  cam.max_depth = 50;
+
+  cam.vfov = 20;
+  cam.lookfrom = point3(0, 0, 12);
+  cam.lookat = point3(0, 0, 0);
+  cam.vup = vec3(0, 1, 0);
+
+  cam.defocus_angle = 0;
+
+  cam.render(hittable_list(uv_sphere));
+}
+
+int main() {
+
   // Get Time elapse for rendering image.
   std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-  camera.render(world);
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-
+  switch (3) {
+    case 1:
+      random_spheres();
+      break;
+    case 2:
+      two_spheres();
+      break;
+    case 3:
+      uv_sphere();
+      break;
+  }
   std::clog << "Time elapse = "
             << std::chrono::duration_cast<std::chrono::seconds>(end - begin).count() << "[s]"
             << std::endl;

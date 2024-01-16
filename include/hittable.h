@@ -13,6 +13,8 @@ class hit_record {
   vec3 normal;
   shared_ptr<material> mat;
   double t;
+  double u;
+  double v;
   bool front_face;
 
   // We're going to assume the normal opposes the incoming ray.

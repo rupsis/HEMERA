@@ -2,6 +2,7 @@ CC = clang++
 CFLAGS = -Wall -Wextra -pedantic -O2 -std=c++11 -g
 SRC_DIR = src
 INC_DIR = include
+EXTERNAL_DIR = external
 BUILD_DIR = build
 TARGET = hemera
 
@@ -13,7 +14,7 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -I$(INC_DIR) -MMD -MP -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INC_DIR) -I$(EXTERNAL_DIR) -MMD -MP -c $< -o $@
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
