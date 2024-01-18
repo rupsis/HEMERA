@@ -1,5 +1,7 @@
 # HEMERA
 
+[Hemera](https://simple.wikipedia.org/wiki/Hemera), the goddess of daylight.
+
 ## Building
 ```
 make
@@ -13,8 +15,3 @@ bash render.sh <image_name>
 ```
 
 **Note:** the `render.sh` uses ffmpeg to convert PPM to PNG
-
-
-
-- BVH [Overview video](https://www.youtube.com/watch?v=EqvtfIqneKA)
-    - Ray Slab Intersection

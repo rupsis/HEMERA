@@ -2,6 +2,7 @@
 #define TEXTURE_H
 
 #include "common.h"
+#include "perlin.h"
 #include "uv_image.h"
 
 class texture {
@@ -76,6 +77,22 @@ class image_texture : public texture {
 
  private:
   uv_image image;
+};
+
+class noise_texture : public texture {
+ public:
+  noise_texture() {}
+
+  noise_texture(double sc) : scale(sc) {}
+
+  color value(double u, double v, const point3 &p) const override {
+    auto s = scale * p;
+    return color(1, 1, 1) * noise.turb(s, 7);
+  }
+
+ private:
+  perlin noise;
+  double scale;
 };
 
 #endif
