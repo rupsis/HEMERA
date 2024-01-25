@@ -15,3 +15,8 @@ bash render.sh <image_name>
 ```
 
 **Note:** the `render.sh` uses ffmpeg to convert PPM to PNG
+
+
+## References
+[C++ Notes](./docs/CPP.md)
+

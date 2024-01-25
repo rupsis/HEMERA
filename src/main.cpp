@@ -71,6 +71,7 @@ void random_spheres() {
   camera.image_width = 400;
   camera.samples_per_pixel = 100;
   camera.max_depth = 50;
+  camera.background = color(0.70, 0.80, 1.00);
 
   camera.vfov = 20;
   camera.lookfrom = point3(13, 2, 3);
@@ -91,21 +92,22 @@ void two_spheres() {
   world.add(make_shared<sphere>(point3(0, -10, 0), 10, make_shared<lambertian>(checker)));
   world.add(make_shared<sphere>(point3(0, 10, 0), 10, make_shared<lambertian>(checker)));
 
-  camera cam;
+  camera camera;
 
-  cam.aspect_ratio = 16.0 / 9.0;
-  cam.image_width = 400;
-  cam.samples_per_pixel = 100;
-  cam.max_depth = 50;
+  camera.aspect_ratio = 16.0 / 9.0;
+  camera.image_width = 400;
+  camera.samples_per_pixel = 100;
+  camera.max_depth = 50;
+  camera.background = color(0.70, 0.80, 1.00);
 
-  cam.vfov = 20;
-  cam.lookfrom = point3(13, 2, 3);
-  cam.lookat = point3(0, 0, 0);
-  cam.vup = vec3(0, 1, 0);
+  camera.vfov = 20;
+  camera.lookfrom = point3(13, 2, 3);
+  camera.lookat = point3(0, 0, 0);
+  camera.vup = vec3(0, 1, 0);
 
-  cam.defocus_angle = 0;
+  camera.defocus_angle = 0;
 
-  cam.render(world);
+  camera.render(world);
 }
 
 void uv_sphere() {
@@ -113,21 +115,22 @@ void uv_sphere() {
   auto uv_surface = make_shared<lambertian>(uv_texture);
   auto uv_sphere = make_shared<sphere>(point3(0, 0, 0), 2, uv_surface);
 
-  camera cam;
+  camera camera;
 
-  cam.aspect_ratio = 16.0 / 9.0;
-  cam.image_width = 400;
-  cam.samples_per_pixel = 100;
-  cam.max_depth = 50;
+  camera.aspect_ratio = 16.0 / 9.0;
+  camera.image_width = 400;
+  camera.samples_per_pixel = 100;
+  camera.max_depth = 50;
+  camera.background = color(0.70, 0.80, 1.00);
 
-  cam.vfov = 20;
-  cam.lookfrom = point3(0, 0, 12);
-  cam.lookat = point3(0, 0, 0);
-  cam.vup = vec3(0, 1, 0);
+  camera.vfov = 20;
+  camera.lookfrom = point3(0, 0, 12);
+  camera.lookat = point3(0, 0, 0);
+  camera.vup = vec3(0, 1, 0);
 
-  cam.defocus_angle = 0;
+  camera.defocus_angle = 0;
 
-  cam.render(hittable_list(uv_sphere));
+  camera.render(hittable_list(uv_sphere));
 }
 
 void two_perlin_spheres() {
@@ -137,21 +140,22 @@ void two_perlin_spheres() {
   world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian>(pertext)));
   world.add(make_shared<sphere>(point3(0, 2, 0), 2, make_shared<lambertian>(pertext)));
 
-  camera cam;
+  camera camera;
 
-  cam.aspect_ratio = 16.0 / 9.0;
-  cam.image_width = 400;
-  cam.samples_per_pixel = 100;
-  cam.max_depth = 50;
+  camera.aspect_ratio = 16.0 / 9.0;
+  camera.image_width = 400;
+  camera.samples_per_pixel = 100;
+  camera.max_depth = 50;
+  camera.background = color(0.70, 0.80, 1.00);
 
-  cam.vfov = 20;
-  cam.lookfrom = point3(13, 2, 3);
-  cam.lookat = point3(0, 0, 0);
-  cam.vup = vec3(0, 1, 0);
+  camera.vfov = 20;
+  camera.lookfrom = point3(13, 2, 3);
+  camera.lookat = point3(0, 0, 0);
+  camera.vup = vec3(0, 1, 0);
 
-  cam.defocus_angle = 0;
+  camera.defocus_angle = 0;
 
-  cam.render(world);
+  camera.render(world);
 }
 
 void quads() {
@@ -171,28 +175,102 @@ void quads() {
   world.add(make_shared<quad>(point3(-2, 3, 1), vec3(4, 0, 0), vec3(0, 0, 4), upper_orange));
   world.add(make_shared<quad>(point3(-2, -3, 5), vec3(4, 0, 0), vec3(0, 0, -4), lower_teal));
 
-  camera cam;
+  camera camera;
 
-  cam.aspect_ratio = 1.0;
-  cam.image_width = 400;
-  cam.samples_per_pixel = 100;
-  cam.max_depth = 50;
+  camera.aspect_ratio = 1.0;
+  camera.image_width = 400;
+  camera.samples_per_pixel = 100;
+  camera.max_depth = 50;
+  camera.background = color(0.70, 0.80, 1.00);
 
-  cam.vfov = 80;
-  cam.lookfrom = point3(0, 0, 9);
-  cam.lookat = point3(0, 0, 0);
-  cam.vup = vec3(0, 1, 0);
+  camera.vfov = 80;
+  camera.lookfrom = point3(0, 0, 9);
+  camera.lookat = point3(0, 0, 0);
+  camera.vup = vec3(0, 1, 0);
 
-  cam.defocus_angle = 0;
+  camera.defocus_angle = 0;
 
-  cam.render(world);
+  camera.render(world);
+}
+
+void simple_light() {
+  hittable_list world;
+
+  auto pertext = make_shared<noise_texture>(4);
+  world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian>(pertext)));
+  world.add(make_shared<sphere>(point3(0, 2, 0), 2, make_shared<lambertian>(pertext)));
+
+  auto difflight = make_shared<diffuse_light>(color(4, 4, 4));
+  world.add(make_shared<sphere>(point3(0, 7, 0), 2, difflight));
+  world.add(make_shared<quad>(point3(3, 1, -2), vec3(2, 0, 0), vec3(0, 2, 0), difflight));
+
+  camera camera;
+
+  camera.aspect_ratio = 1.0;
+  camera.image_width = 400;
+  camera.samples_per_pixel = 100;
+  camera.max_depth = 50;
+  camera.background = color(0, 0, 0);
+
+  camera.vfov = 20;
+  camera.lookfrom = point3(26, 3, 6);
+  camera.lookat = point3(0, 2, 0);
+  camera.vup = vec3(0, 1, 0);
+
+  camera.defocus_angle = 0;
+
+  camera.render(world);
+}
+
+void cornell_box() {
+  hittable_list world;
+
+  auto red = make_shared<lambertian>(color(0.65, 0.05, 0.05));
+  auto white = make_shared<lambertian>(color(0.73, 0.73, 0.73));
+  auto green = make_shared<lambertian>(color(0.12, 0.45, 0.15));
+  auto light = make_shared<diffuse_light>(color(15, 15, 15));
+
+  world.add(make_shared<quad>(point3(555, 0, 0), vec3(0, 555, 0), vec3(0, 0, 555), green));
+  world.add(make_shared<quad>(point3(0, 0, 0), vec3(0, 555, 0), vec3(0, 0, 555), red));
+  world.add(make_shared<quad>(point3(343, 554, 332), vec3(-130, 0, 0), vec3(0, 0, -105), light));
+  world.add(make_shared<quad>(point3(0, 0, 0), vec3(555, 0, 0), vec3(0, 0, 555), white));
+  world.add(make_shared<quad>(point3(555, 555, 555), vec3(-555, 0, 0), vec3(0, 0, -555), white));
+  world.add(make_shared<quad>(point3(0, 0, 555), vec3(555, 0, 0), vec3(0, 555, 0), white));
+
+  // Boxes
+  shared_ptr<hittable> box1 = box(point3(0, 0, 0), point3(165, 330, 165), white);
+  box1 = make_shared<rotate_y>(box1, 15);
+  box1 = make_shared<translate>(box1, vec3(265, 0, 295));
+  world.add(box1);
+
+  shared_ptr<hittable> box2 = box(point3(0, 0, 0), point3(165, 165, 165), white);
+  box2 = make_shared<rotate_y>(box2, -18);
+  box2 = make_shared<translate>(box2, vec3(130, 0, 65));
+  world.add(box2);
+
+  camera camera;
+
+  camera.aspect_ratio = 1.0;
+  camera.image_width = 600;
+  camera.samples_per_pixel = 200;
+  camera.max_depth = 50;
+  camera.background = color(0, 0, 0);
+
+  camera.vfov = 40;
+  camera.lookfrom = point3(278, 278, -800);
+  camera.lookat = point3(278, 278, 0);
+  camera.vup = vec3(0, 1, 0);
+
+  camera.defocus_angle = 0;
+
+  camera.render(world);
 }
 
 int main() {
 
   // Get Time elapse for rendering image.
   std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-  switch (5) {
+  switch (7) {
     case 1:
       random_spheres();
       break;
@@ -207,6 +285,12 @@ int main() {
       break;
     case 5:
       quads();
+      break;
+    case 6:
+      simple_light();
+      break;
+    case 7:
+      cornell_box();
       break;
   }
   std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
